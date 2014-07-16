@@ -1,3 +1,19 @@
+/*
+ *  giMultiAnalogSensor.ino
+ *
+ *  Created by John Larson July 15, 2014.
+ *  Copyright 2014 John Larson. All rights reserved.
+ *
+ * This work is licensed under a Creative Commons 
+ * Attribution-ShareAlike 3.0 Unported License.
+ *
+ * https://creativecommons.org/licenses/by-sa/3.0/
+ *
+ * This code is strictly "as is". Use at your own risk. 
+ *
+ *
+ */
+
 
 boolean debug = true; // true for debugging statements to serial out
 
