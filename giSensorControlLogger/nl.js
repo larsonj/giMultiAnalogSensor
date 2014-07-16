@@ -1,7 +1,7 @@
 var dateFormat = require('dateformat');
 var serialport = require("serialport");
 var SerialPort = serialport.SerialPort; // localize object constructor
-var sensorNode = "40BEDDF7";
+var sensorNode = "40BEDDF7";  // todo: add routine to read from sensors
 
 var sp = new SerialPort("COM4", {
   parser: serialport.parsers.readline("\n")
@@ -17,9 +17,14 @@ sp.on('open', function(){
       var now = new Date();
       var day=dateFormat(now.request_date, "yyyy-mm-dd h:MM:ss");
 
-      console.log("%s, %s, %s", sensorNode, day, data);
+      if (data == "\r") {
+      	console.log(""); // accomodate debug formatting
+      	}
+      	else {
+      		console.log("%s, %s, %s", sensorNode, day, data); 
+      	}
   });
-// close port?
+
 });
 
 //console.log(
