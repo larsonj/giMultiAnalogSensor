@@ -21,7 +21,7 @@ int tempPin = 0;
 int lightPin = 1;
 int soilPin = 2;
 
-int voltage = 0; 
+float voltage = 0; 
 float degreesC = 0;
 float degreesF = 0;
 
@@ -52,7 +52,11 @@ void loop() {
 // check and convert temperature sensor reading
 voltage = getVoltage(tempPin);  
 tempVal = voltage; // for debug
-degreesC = (voltage - 0.5) * 100.0; // future use
+
+//degreesC = map(voltage, 50, 882, -40, 125);
+degreesC = ( (voltage * 0.004882814) - 0.5) * 100.0 ; // future use
+// degreesC = (voltage - 0.5) * 100.0; // future use
+
 degreesF = degreesC * (9.0/5.0) + 32.0;
 
 // check and convert light sensor reading
@@ -63,19 +67,28 @@ soilVal = getVoltage(soilPin);
   
 if (debug) {
   Serial.print("voltage: ");
-  Serial.println(tempVal);
+  Serial.println(voltage);
+  
+  Serial.print("degreesC: ");
+  Serial.println(degreesC);
+
   Serial.print("degreesF: ");
   Serial.println(degreesF);
+  
   Serial.print("light: ");
   Serial.println(lightVal);
+  
   Serial.print("soil: ");
   Serial.println(soilVal);
+  
   Serial.println("");
 } else {
   Serial.print(degreesF);
   Serial.print(", ");  
+  
   Serial.print(lightVal);
   Serial.print(", ");  
+  
   Serial.println(soilVal);
 }
 // { "SensorHV": sensorHV, "SensorLV": sensorLV, 
@@ -91,8 +104,10 @@ if (debug) {
 
 float getVoltage(int pin)
 {
-  return (analogRead(pin) * 0.004882814);
-  // return analogRead(pin); return raw pin reading - for debug
+  if (debug) Serial.println (analogRead(pin));
+
+  //return (analogRead(pin) * 0.004882814);
+  return analogRead(pin); //return raw pin reading - for debug
   // This equation converts the 0 to 1023 value that analogRead()
   // returns, into a 0.0 to 5.0 value that is the true voltage
   // being read at that pin.
